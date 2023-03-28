@@ -42,7 +42,7 @@ int fileConverting(const char* filename, struct WordDecompress** wordDec, int* n
                     (*wordDec)[*numberOfWords-1].secondWord = str;
                 if(c == '\n')
                     ln = 1;
-                str = NULL;
+                str = 0;
                 currSize = 0;
             }
         }
