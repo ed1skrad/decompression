@@ -70,10 +70,10 @@ int fileConverting(const char* filename, struct WordDecompress** wordDec, int* n
             }
         }
     }
-    free(str);
-    free(words);
+
     fclose(file);
 
+    free(str);
     return 1;
 }
 
