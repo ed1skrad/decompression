@@ -38,6 +38,17 @@ int Decompress(const char* filename, const char* output) {
             fprintf(file, "%s", words[i]);
     }
     fclose(file);
+
+    for(int i = 0; i < wordsSize; i++) {
+        free(words[i]);
+    }
+    free(words);
+    for(int i = 0; i < numberOfWords; i++) {
+        free(wordDec[i].firstWord);
+        free(wordDec[i].secondWord);
+    }
+    free(wordDec);
+
     return 0;
 }
 
