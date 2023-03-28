@@ -30,3 +30,6 @@
 2	141	7017391918532049	CMakeFiles/decompression.dir/main.c.obj	7b8028431d8451cb
 13	147	7017391918592104	CMakeFiles/decompression.dir/openFile.c.obj	60333cfa05c4516
 148	290	7017391919992025	decompression.exe	f0b42f0e65de13bf
+13	135	7017398903787226	CMakeFiles/decompression.dir/main.c.obj	7b8028431d8451cb
+2	155	7017398903987185	CMakeFiles/decompression.dir/File.c.obj	7bd80cd91c80549c
+156	298	7017398905327223	decompression.exe	f0b42f0e65de13bf

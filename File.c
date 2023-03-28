@@ -42,7 +42,7 @@ int fileConverting(const char* filename, struct WordDecompress** wordDec, int* n
                     (*wordDec)[*numberOfWords-1].secondWord = str;
                 if(c == '\n')
                     ln = 1;
-                str = 0;
+                str = NULL;
                 currSize = 0;
             }
         }
@@ -65,10 +65,19 @@ int fileConverting(const char* filename, struct WordDecompress** wordDec, int* n
                 *words = realloc(*words, ((*wordsSize) + 1) * sizeof(char *));
                 (*words)[*wordsSize] = str;
                 (*wordsSize)++;
-                str = 0;
+                str = NULL;
                 currSize = 0;
             }
         }
+    }
+
+    if (str != NULL) {
+        currSize++;
+        str = realloc(str, currSize*sizeof(char));
+        str[currSize-1] = '\0';
+        *words = realloc(*words, ((*wordsSize) + 1) * sizeof(char *));
+        (*words)[*wordsSize] = str;
+        (*wordsSize)++;
     }
 
     fclose(file);
@@ -76,3 +85,4 @@ int fileConverting(const char* filename, struct WordDecompress** wordDec, int* n
     free(str);
     return 1;
 }
+
