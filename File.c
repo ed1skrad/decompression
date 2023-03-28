@@ -76,4 +76,3 @@ int fileConverting(const char* filename, struct WordDecompress** wordDec, int* n
     free(str);
     return 1;
 }
-
