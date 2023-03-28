@@ -14,7 +14,7 @@ char* getFileName()
 
 char* getFileCompressedName()
 {
-    char* compressedFileName = (char*)calloc(1, sizeof(char));;
+    char* compressedFileName = (char*)calloc(1, sizeof(char));
     printf("Enter compressed filename:\n");
     scanf("%54s", compressedFileName);
     return compressedFileName;
