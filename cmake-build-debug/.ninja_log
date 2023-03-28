@@ -1,0 +1,6 @@
+# ninja log v5
+14	287	7017304079436634	CMakeFiles/decompression.dir/main.c.obj	7b8028431d8451cb
+21	150	7017243225924278	CMakeFiles/decompression.dir/Utilits.c.obj	5c4e21ba37478710
+3	288	7017304079446637	CMakeFiles/decompression.dir/File.c.obj	7bd80cd91c80549c
+23	285	7017304079426647	CMakeFiles/decompression.dir/Decompressing.c.obj	de527444b2169db2
+288	699	7017304083536620	decompression.exe	910d7025026aea2d
