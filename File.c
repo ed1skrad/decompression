@@ -71,21 +71,8 @@ int fileConverting(const char* filename, struct WordDecompress** wordDec, int* n
         }
     }
 
-    if (str != NULL) {
-        currSize++;
-        str = realloc(str, currSize*sizeof(char));
-        str[currSize-1] = '\0';
-        *words = realloc(*words, ((*wordsSize) + 1) * sizeof(char *));
-        (*words)[*wordsSize] = str;
-        (*wordsSize)++;
-        currSize = 0;
-        str = NULL;
-        free(str);
-    }
-
-
-
     fclose(file);
+    free(str);
 
     return 1;
 }
