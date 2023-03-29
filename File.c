@@ -6,13 +6,18 @@
 //
 // Created by User on 26.03.2023.
 //
-
-int fileConverting(const char* filename, struct WordDecompress** wordDec, int* numberOfWords, char*** words, int* wordsSize) {
+FILE* openFile(const char* filename) {
     FILE *file = fopen(filename, "r");
     if (file == NULL) {
         printf("Error opening file\n");
-        return 0;
+        return NULL;
     }
+    return file;
+}
+
+int fileConverting(const char* filename, struct WordDecompress** wordDec, int* numberOfWords, char*** words, int* wordsSize) {
+    FILE *file = openFile(filename);
+
 
     char* str = NULL;
     int currSize = 0;
