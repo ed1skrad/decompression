@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,76 +17,74 @@ FILE* openFile(const char* filename) {
 }
 
 int fileConverting(const char* filename, struct WordDecompress** wordDec, int* numberOfWords, char*** words, int* wordsSize) {
-    FILE *file = openFile(filename);
+    FILE *file = fopen(filename, "r");
+    if (file == NULL) {
+        printf("Can't open file. Try again.\n");
+        return 0;
+    }
 
-
-    char* str = NULL;
+    char buffer[1024];
+    char *str = NULL;
     int currSize = 0;
-    char c;
     int ln = 0;
 
-    while(1) {
-        c = (char)getc(file);
-        if(c == EOF) {
-            break;
-        }
+    while (fgets(buffer, sizeof(buffer), file) != NULL) {
+        for (int i = 0; buffer[i] != '\0'; i++) {
+            char c = buffer[i];
+            if (ln == 0) {
+                if (c != ' ' && c != '\n') {
+                    str = realloc(str, (currSize + 1) * sizeof(char));
+                    str[currSize] = c;
+                    currSize++;
+                    continue;
+                }
 
-        if(ln == 0) {
-            if(c != ' ' && c != '\n') {
-                str = realloc(str, (currSize+1)*sizeof(char));
-                str[currSize] = c;
                 currSize++;
-                continue;
-            }
+                str = realloc(str, currSize * sizeof(char));
+                str[currSize - 1] = '\0';
 
-            currSize++;
-            str = realloc(str, currSize*sizeof(char));
-            str[currSize-1] = '\0';
+                if (*wordDec == NULL || (*wordDec)[*numberOfWords - 1].secondWord != NULL) {
+                    (*numberOfWords)++;
+                    *wordDec = realloc(*wordDec, (*numberOfWords) * sizeof(struct WordDecompress));
+                    (*wordDec)[*numberOfWords - 1].firstWord = NULL;
+                    (*wordDec)[*numberOfWords - 1].secondWord = NULL;
+                }
 
-            if(*wordDec == NULL || (*wordDec)[*numberOfWords-1].secondWord != NULL)
-            {
-                (*numberOfWords)++;
-                *wordDec = realloc(*wordDec, (*numberOfWords)*sizeof(struct WordDecompress));
-                (*wordDec)[*numberOfWords-1].firstWord = NULL;
-                (*wordDec)[*numberOfWords-1].secondWord = NULL;
-            }
+                if ((*wordDec)[*numberOfWords - 1].firstWord == NULL)
+                    (*wordDec)[*numberOfWords - 1].firstWord = str;
+                else if ((*wordDec)[*numberOfWords - 1].secondWord == NULL)
+                    (*wordDec)[*numberOfWords - 1].secondWord = str;
 
-            if((*wordDec)[*numberOfWords-1].firstWord== NULL)
-                (*wordDec)[*numberOfWords-1].firstWord = str;
-            else if((*wordDec)[*numberOfWords-1].secondWord == NULL)
-                (*wordDec)[*numberOfWords-1].secondWord = str;
-
-            if(c == '\n')
-                ln = 1;
-
-            str = NULL;
-            currSize = 0;
-        }
-        else {
-            if(punctuationMark(c) == 0) {
-                str = realloc(str, (currSize+1)*sizeof(char));
-                str[currSize] = c;
-                currSize++;
-            }
-            else {
-                currSize++;
-                str = realloc(str, currSize*sizeof(char));
-                str[currSize-1] = '\0';
-
-                *words = realloc(*words, ((*wordsSize) + 1) * sizeof(char *));
-                (*words)[*wordsSize] = strdup(str);
-                (*wordsSize)++;
-
-                str = calloc(2, sizeof(char));
-                str[0] = c;
-                str[1] = '\0';
-
-                *words = realloc(*words, ((*wordsSize) + 1) * sizeof(char *));
-                (*words)[*wordsSize] = str;
-                (*wordsSize)++;
+                if (c == '\n')
+                    ln = 1;
 
                 str = NULL;
                 currSize = 0;
+            } else {
+                if (punctuationMark(c) == 0) {
+                    str = realloc(str, (currSize + 1) * sizeof(char));
+                    str[currSize] = c;
+                    currSize++;
+                } else {
+                    currSize++;
+                    str = realloc(str, currSize * sizeof(char));
+                    str[currSize - 1] = '\0';
+
+                    *words = realloc(*words, ((*wordsSize) + 1) * sizeof(char *));
+                    (*words)[*wordsSize] = strdup(str);
+                    (*wordsSize)++;
+
+                    str = calloc(2, sizeof(char));
+                    str[0] = c;
+                    str[1] = '\0';
+
+                    *words = realloc(*words, ((*wordsSize) + 1) * sizeof(char *));
+                    (*words)[*wordsSize] = str;
+                    (*wordsSize)++;
+
+                    str = NULL;
+                    currSize = 0;
+                }
             }
         }
     }
@@ -95,4 +94,3 @@ int fileConverting(const char* filename, struct WordDecompress** wordDec, int* n
 
     return 1;
 }
-
