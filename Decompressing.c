@@ -1,9 +1,4 @@
-#include "Initialization.h"
-#include <stdio.h>
-#include <string.h>
-//
-// Created by User on 26.03.2023.
-//
+
 int Decompress(const char* filename, const char* output) {
     struct WordDecompress* wordDec = NULL;
     int numberOfWords = 0;
